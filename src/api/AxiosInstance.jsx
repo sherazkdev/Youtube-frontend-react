@@ -8,14 +8,14 @@ const baseURL = import.meta.env.VITE_API_URL;
 
 // fetch video by video id
 export const handleFetchUserById = async (videoId) => {
-    const fetchVideo = await axios.get(`/api/v1/videos/video/${videoId}`);
+    const fetchVideo = await axios.get(`/api/v1/videos/video/${videoId}`,{withCredentials:true});
     return fetchVideo;
 }
 
 // get Video By video id
 export const handleGetVideoById = async (videoId) => {
     // fetch video by video id
-    const fetchVideo = await axios.get(`${baseURL}/api/v1/videos/video/${videoId}`);
+    const fetchVideo = await axios.get(`${baseURL}/api/v1/videos/video/${videoId}`,{withCredentials:true});
     // return fetched video
     return fetchVideo;
 }
@@ -23,7 +23,7 @@ export const handleGetVideoById = async (videoId) => {
 // get Latest Videos for home page
 export const handleGetLatestVideos = async () => {
     // fetch latest videos
-    const fetchVideos = await axios.get(`${baseURL}/api/v1/videos/videos`);
+    const fetchVideos = await axios.get(`${baseURL}/api/v1/videos/videos`,{withCredentials:true});
     // finaly return videos 
     return fetchVideos;
 }
@@ -31,7 +31,7 @@ export const handleGetLatestVideos = async () => {
 // get Suggested Video by video min 5
 export const handleGetRelatedVideosByVideoId = async (videoId) => {
     // fetching suggested videos
-    const fetchSuggestedVideos = await axios.get(`${baseURL}/api/v1/videos/relatedVideos?_id=${videoId}`);
+    const fetchSuggestedVideos = await axios.get(`${baseURL}/api/v1/videos/relatedVideos?_id=${videoId}`,{withCredentials:true});
     // and finaly return fetchSuggestedVideos
     return fetchSuggestedVideos;
 }
@@ -39,7 +39,7 @@ export const handleGetRelatedVideosByVideoId = async (videoId) => {
 // fetch video comments by videoId
 export const handleGetVideoCommentsByVideoId = async (videoId) => {
     // fetching comments by video videoId
-    const videoComments = await axios.get(`${baseURL}/api/v1/comments/video/${videoId}`);
+    const videoComments = await axios.get(`${baseURL}/api/v1/comments/video/${videoId}`,{withCredentials:true});
     // and finaly return videoComments
     return videoComments;
 }
@@ -72,7 +72,7 @@ export const handelGetPlaylistById = async (playlistId) => {
 // check user by email is exist
 export const handleGetUserByEmailIsExist = async (email) => {
     // check user by email is exist
-    const checkUserByEmail = await axios.post(`${baseURL}/api/v1/users/checkUserByEmail`,{email});
+    const checkUserByEmail = await axios.post(`${baseURL}/api/v1/users/checkUserByEmail`,{email},{withCredentials:true});
     // finaly return check user by email
     return checkUserByEmail;
         
@@ -81,7 +81,7 @@ export const handleGetUserByEmailIsExist = async (email) => {
 // login user by email and password api
 export const handleLoginUser = async (email,password) => {
     // check user email and password is match successfull
-    const loginUserByEmailAndPassword = await axios.post(`${baseURL}/api/v1/users/login`,{email,password});
+    const loginUserByEmailAndPassword = await axios.post(`${baseURL}/api/v1/users/login`,{email,password},{withCredentials:true});
     // finaly return login user details response
     return loginUserByEmailAndPassword;
 }
@@ -122,14 +122,14 @@ export const handleLikeCommentToggle = async (commentId) => {
 // Get comment replies by commentId 
 export const handleGetCommentReplies = async (payload) => {
 
-    const fetchLatestCommentReplies = await axios.get(`${baseURL}/api/v1/comments/comment-replies?commentId=${payload?.commentId}&page=${payload?.page || 1}&limit=${payload?.limit || 9}`);
+    const fetchLatestCommentReplies = await axios.get(`${baseURL}/api/v1/comments/comment-replies?commentId=${payload?.commentId}&page=${payload?.page || 1}&limit=${payload?.limit || 9}`,{withCredentials:true});
     return fetchLatestCommentReplies;
 
 }
 
 // unsubsribed channel toggle
 export const handleSubscribeAndUnsubscribeToggle = async (channelId) => {
-    const isSubscribedToggle = await axios.get(`${baseURL}/api/v1/subscriptions/toggle-subscription/${channelId}`);
+    const isSubscribedToggle = await axios.get(`${baseURL}/api/v1/subscriptions/toggle-subscription/${channelId}`,{withCredentials:true});
     return isSubscribedToggle;
 }
 
