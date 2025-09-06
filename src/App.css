@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* index.css */
+html,body,#root {
+  width: 100%;
+  height: 100%;
+}
+.clip-circle {
+  border-radius: 50% !important;
+  width: 40px;
+  height: 40px;
+}
+::-webkit-scrollbar{
+  width: 5px;
+}
+.clip-circle-channel-logo {
+  border-radius: 50%;
+  width: 160px;
+  height: 160px;
+  max-width: 160px;
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 160px;
+}
+@layer components {
+  .activeLink:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -13px;
+    background-color: #0f0f0f;
+    width: 100%;
+    height:2px;
+    border-radius: 100%;
+  }
+}
+
+.musicPlayer {
+  background: linear-gradient(to bottom, rgba(102, 52, 114, 0.800) 0%, rgba(102, 52, 114, 0.298) 33.000001%, rgba(102, 52, 114, 0.800) 100%)
+}

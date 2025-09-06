@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+::-webkit-scrollbar{
+    width: 4px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #686868;
+    border-radius: 300px;
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #606060;
+}
+.font-roboto {
+    font-family: 'Roboto', sans-serif;
+}
+
+.comment-input::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 27px;
+    height: 2px;
+    width: 100%;
+    background: #0f0f0f;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+.reply-input::after{
+    content: "";
+    position: absolute;
+    left: 32px;
+    top: 29px;
+    height: 2px;
+    width: 1232px;
+    border-radius: 50%;
+    background: #0f0f0f;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+  
+  /* jab andar ka input focus ho */
+.comment-input:focus-within::after,.reply-input:focus-within::after {
+    transform: scaleX(1);
+}
+  /* Burst rays around the button */
+.subscribe-btn .burst {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+  
+  .subscribe-btn .burst span {
+    position: absolute;
+    width: 6px;
+    height: 16px;
+    background: #c3317d;
+    border-radius: 3px;
+    top: 50%;
+    left: 50%;
+    transform-origin: center -8px;
+    opacity: 0;
+  }
+  
+  /* rays placement (like a sun burst) */
+  .subscribe-btn .burst span:nth-child(1) { transform: rotate(0deg) translateY(-28px); }
+  .subscribe-btn .burst span:nth-child(2) { transform: rotate(45deg) translateY(-28px); }
+  .subscribe-btn .burst span:nth-child(3) { transform: rotate(90deg) translateY(-28px); }
+  .subscribe-btn .burst span:nth-child(4) { transform: rotate(135deg) translateY(-28px); }
+  .subscribe-btn .burst span:nth-child(5) { transform: rotate(180deg) translateY(-28px); }
+  .subscribe-btn .burst span:nth-child(6) { transform: rotate(225deg) translateY(-28px); }
+  .subscribe-btn .burst span:nth-child(7) { transform: rotate(270deg) translateY(-28px); }
+  .subscribe-btn .burst span:nth-child(8) { transform: rotate(315deg) translateY(-28px); }
+  
+  /* animation when subscribing */
+  .subscribe-btn.anim .burst span {
+    animation: burstOut 0.6s ease-out forwards;
+  }
+  
+  @keyframes burstOut {
+    0% { transform: scale(0.5) translateY(-28px); opacity: 0; }
+    40% { opacity: 1; }
+    100% { transform: scale(1.4) translateY(-36px); opacity: 0; }
+  }
+  
