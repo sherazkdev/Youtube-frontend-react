@@ -25,21 +25,9 @@ const MainLayout = () => {
                         // For Watch Page
                         <Sidebar variant="mobile" />
                     ) : currentLocation.pathname.startsWith("/playlist") === true ? (
-
                         <>
-                        
-                        <Sidebar variant="collapsed" />
-                            {params?.get("list") == "WL" ? (
-
-                                <Sidebar variant="collapsed" />
-                            
-                            ) : params?.get("list") == "LL" ? (
-                            
-                                <Sidebar variant="expanded" />
-                            
-                            ) : "Invalid Access"  }
+                            <Sidebar variant="expanded" />
                         </>
-
                     ) : (
                         // Normal Pages for example channel home etc.
                         <Sidebar variant="expanded" />

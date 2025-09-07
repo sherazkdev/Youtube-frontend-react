@@ -44,12 +44,12 @@ const VideoPlaylist = ({playlist,limit=60,shuffle,setShuffle,loop,setLoop,handle
                             
                             {/* channel name */}
                             <div>
-                                <p id="channelName" className="text-[#0f0f0f] text-[12px] font-normal relative after:content-[''] after:absolute after:top-2.5 after:right-[-10px] after:bg-[#606060] after:h-[1px] after:w-[5px]">{playlist?.owner?.username}</p>
+                                <p id="channelName" className="text-[#0f0f0f] text-[12px] font-normal relative after:content-[''] after:absolute after:top-2.5 after:right-[-8.5px] after:bg-[#606060] after:h-[1px] after:w-[3px] after:font-extrabold">{playlist?.owner?.fullname}</p>
                             </div>
                             
                             {/* Videos length */}
                             <div>
-                                <p className="text-[#606060] ml-1 text-[12px]">{playlist?.videos?.length}</p>
+                                <p className="text-[#606060] ml-1 text-[12px]">{playlist?.videos?.length} / {playlist?.videos?.length}</p>
                             </div>
                         
                         </div>

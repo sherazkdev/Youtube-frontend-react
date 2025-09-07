@@ -6,6 +6,15 @@ import axios from "axios";
 
 const baseURL = import.meta.env.VITE_API_URL;
 
+
+// watch later playlist get all videos 
+export const handleGetWatchLaterPlatlist = async () => {
+    // get all playlist videos and details
+    const watchLaterPlaylist = await axios.get(`${baseURL}/api/v1/playlists/get-watch-later-playlist`,{withCredentials:true});
+    // finaly return watch later playlist
+    return watchLaterPlaylist;
+}
+
 // fetch video by video id
 export const handleFetchUserById = async (videoId) => {
     const fetchVideo = await axios.get(`/api/v1/videos/video/${videoId}`,{withCredentials:true});
@@ -200,4 +209,12 @@ export const handleSearchVideoWithFullDetails = async (query) => {
     console.log(searchVideos)
     // return response fethed videos
     return searchVideos;
+}
+
+// get like videos playlist
+export const handleGetLikeVideosPlaylist = async () => {
+    // get all playlist videos and details
+    const likeVideosPlaylist = await axios.get(`${baseURL}/api/v1/playlists/get-liked-videos-playlist`,{withCredentials:true});
+    // finaly return like videos playlist
+    return likeVideosPlaylist;
 }

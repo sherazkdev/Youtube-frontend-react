@@ -1,18 +1,24 @@
 import React,{useState,useRef,useEffect} from "react";
-import {useLocation, useNavigate } from "react-router-dom";
+import {Link, useLocation, useNavigate } from "react-router-dom";
 import Icons from "../../assets/Icons";
 import ColorThief from 'colorthief';
 import LikeVideoTypeCard from "../../components/Cards/PlaylistPage/LikeVideoTypeCard";
 import WatchHistoryTypeCard from "../../components/Cards/PlaylistPage/WatchHistoryTypeCard";
+import useWatchLaterOrLikeVideosPlaylist from "../../hooks/useWatchLaterOrLikeVideosPlaylist";
+import DateCalculate from "../../utils/DateCalculate";
 
 const SinglePlaylist = () => {
+
+    // hoook for getPla
 
     const latestImgRef = useRef(null);
     const [bgColor, setBgColor] = useState([30, 30, 30]); // fallback RGB
     const [list,setList] = useState(null);
+    const [playlistData,setPlaylistData] = useState(null);
     const location = useLocation();
     const Navigate = useNavigate();
 
+    // this useeffect using for getting url params
     useEffect( () => {
 
         const params = new URLSearchParams(location.search);
@@ -21,9 +27,28 @@ const SinglePlaylist = () => {
         }else(
             Navigate("/",{replace:true})
         )
+        // eslint-disable-next-line
+    },[location.search,location.pathname])
 
-    },[location.search])
+    // hook for watch later or like videos
+    const [playlistFetchingError,playlistFetchingLoading,data] = useWatchLaterOrLikeVideosPlaylist("LL");
 
+    useEffect( () => { 
+        if(playlistFetchingLoading) {
+            return;
+        }
+        if(data?.length < 1 && playlistFetchingLoading === true){
+            return;
+        }
+        setPlaylistData(data);
+    },[playlistFetchingLoading,data,playlistData]);
+
+    // use effect for error handling
+    useEffect( () => {
+        if(playlistFetchingError) return (<>Some error occured: {playlistFetchingError}</>)
+    },[playlistFetchingError])
+
+    // get color from image using ColorThief
     useEffect(() => {
       const img = latestImgRef.current;
       if(!img) return;
@@ -36,262 +61,141 @@ const SinglePlaylist = () => {
       function getColor() {
         const colorThief = new ColorThief();
         const color = colorThief.getColor(img);
-        setBgColor(color); // [r, g, b]
+        console.log(color)
+        setBgColor(color); 
       }
-    },[]);
+    },[playlistData,latestImgRef]);
     
-
-    const randomVideo = {
-        _id: "123abc",
-        title: "Exploring the Mountains in 4K",
-        thumbnail: "https://i.ytimg.com/vi/abc123/default.jpg",
-        views: 12500,
-        createdAt: "2025-07-14T10:00:00Z",
-        owner: {
-          _id: "channel123",
-          avatar: "https://i.pravatar.cc/36",
-          channelName: "Nature Explorer",
-        },
-    };
     const gradientStyle = {
         background: `linear-gradient(to bottom, rgba(${bgColor.join(",")},0.9), rgba(${bgColor.join(",")},0.5))`
-      };
+    };
+
     return (
         <>
-
-            { list === "LL" ? (
-                <>
-                    {/* Video Play Options */}
-                    <section 
-                            style={{
-                                background: `linear-gradient(to bottom, rgba(${bgColor.join(',')},0.9), rgba(${bgColor.join(',')},0.5))`,
-                            }} 
-                            className="w-[370px] h-[900px] sticky top-[80px] left-[100px] flex items-center justify-center rounded-lg flex-co">
-                                
-                                <div>
-                                    {/* Playlist first Video Thumbnail  */}
-                                    <div className="m-auto relative group">
+            {playlistFetchingLoading == false && data && (
+                <section id="watchLaterSection" className="w-full grid grid-cols-[360px_1fr] grid-rows-[minmax(300px,800px)_1fr] gap-[1rem]">
+                            {/* playlist panel */}
+                            <aside style={gradientStyle} className={`p-4 rounded-lg border border-gray-300 row-span-2`}>
+                                {/* last added video in watch later thumbnail */}
+                                <div className="w-[312px] h-[175px]">
+                                    {playlistData?.videos?.length > 0 && (
+                                        <img
+                                            ref={latestImgRef}
+                                            crossOrigin="anonymous"
+                                            src={playlistData?.videos[Math.floor(Math.random() * (playlistData?.videos?.length -1))]?.thumbnail}
+                                            alt="Latest Video Thumbnail"
+                                            className="w-full h-full object-cover rounded-lg"
+                                        />
                                         
-                                        <div>
-                                            <img className="w-[320px] rounded-md" crossOrigin="anonymous" ref={latestImgRef} src="https://i.ytimg.com/vi/QoiRcwKrl1M/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAPFctAFohScoef0ylWXNMkXdDIwQ" />
-                                            
-                                            <div className="w-[320px] rounded-md group-hover:opacity-100 h-[100%] opacity-0 absolute top-0 flex justify-center items-center bg-[#000000CC]">
-                                                <p className="text-[#ffffff] flex space-x-2 cursor-pointer font-medium"> <span> <Icons.PlayIco /> </span> <span>Play All</span> </p>
-                                            </div>
-                                        </div>
+                                    )}
+                                </div>
 
+                                {/* playlist info */}
+                                <div className="grid row-span-2 gap-y-[1.5rem]">
+                                    {/* playlist name */}
+                                    <div>
+                                        <h2 className="text-[#ffffff] font-bold text-[28px]">{data?.name}</h2>
                                     </div>
 
-                                    {/* Like Videos Label your channel Name or total videos length views updated last time */}
-                                    <div className="flex flex-col space-y-3">
-                                        
-                                        {/* Like Videos Label */}
-                                        <div>
-                                            <h1 className="text-[#ffffff] text-[28px] font-medium">Like Videos</h1>
+                                    {/* owner name, last updated, and operations */}
+                                    <div className="grid row-span-3 gap-y-3">
+                                        {/* owner name + stats */}
+                                        <div className="grid row-span-2 gap-y-1">
+                                        <h3 className="text-[#ffffff] text-[16px] font-normal">Sheraz Dev</h3>
+                                        <div className="flex text-[#ffffffb3] text-[14px] gap-x-1 font-normal">
+                                            <p>{playlistData?.videos?.length} videos</p>
+                                            <span>•</span>
+                                            <p>No views</p>
+                                            <span>•</span>
+                                            <p>Last updated in {<DateCalculate localDate={data?.updatedAt} />}</p>
                                         </div>
-                                        
-                                        {/* your channel Name or total videos length views updated last time */}
-                                        <div className="flex space-y-2 flex-col">
-                                            
-                                            {/* Channel Name */}
-                                            <div>
-                                                <h2 className="text-[#fff]">Screen Scene</h2>
-                                            </div>
-                                            
-                                            {/* Videos Length views updated last time*/}
-                                            <div className="text-[#ffffffb3] flex space-x-2">
-
-                                                {/* Videos Length */}
-                                                <div>
-                                                    <p> <span>5000</span> <span> Videos </span> </p>
-                                                </div>
-                                                
-                                                {/* views */}
-                                                <div>
-                                                    <p> No views </p>
-                                                </div>
-                                                
-                                                {/* updated last time */}
-                                                <div>
-                                                    <p> Updated today </p>
-                                                </div>
-                                            
-                                            </div>
-
-                                            {/* Download Ico Three Dote Ico */}
-                                            <div className="text-[#ffffffb3] flex space-x-3">
-                                                <button 
-                                                    type="button"
-                                                    style={{
-                                                        background: `linear-gradient(to bottom, rgba(${bgColor.join(',')},0.9), rgba(${bgColor.join(',')},0.5))`,
-                                                    }} 
-                                                    className="p-2 font-bold rounded-full"
-                                                    > <Icons.DownloadIco /> </button>
-                                                
-                                                <button 
-                                                    type="button"
-                                                    style={{
-                                                        background: `linear-gradient(to bottom, rgba(${bgColor.join(',')},0.9), rgba(${bgColor.join(',')},0.5))`,
-                                                    }} 
-                                                    className="p-2 font-bold rounded-full"
-                                                    > <Icons.ThreeDotIco /> </button>
-                                            </div>
-                                            
                                         </div>
-                                        
-                                        {/* Some Opeations */}
-                                        <div className="flex space-x-2">
-                                            
-                                            <button type="button"
-                                                    className="flex space-x-1 text-[#0f0f0f] bg-[#ffffff] px-4 py-2 rounded-full">
 
-                                                {/* Play Icon */}
-                                                <div>
-                                                    <p><Icons.PlayIco /></p>
-                                                </div>
-
-                                                {/* Play All Label */}
-                                                <div>
-                                                    <p>Play all</p>
-                                                </div>
-                                            
+                                        {/* download and add videos */}
+                                        <div className="gap-x-3 flex">
+                                            <button className="bg-[#ffffff1a] p-2 hover:bg-[#fff3] border border-[#00000000] rounded-full fill-[#ffffff]">
+                                                <Icons.DownloadIco />
                                             </button>
-
-                                            <button 
-                                                type="button"
-                                                style={{
-                                                    background: `linear-gradient(to bottom, rgba(${bgColor.join(',')},0.9), rgba(${bgColor.join(',')},0.5))`,
-                                                }} 
-                                                className="flex space-x-1 text-[#fff] bg-[#674673] px-4 py-2 rounded-full">
-                                                
-                                                {/* Shuffle Ico Icon */}
-                                                <div>
-                                                    <p><Icons.WavIco /></p>
-                                                </div>
-
-                                                {/* Shuffle Label */}
-                                                <div>
-                                                    <p>Shuffle</p>
-                                                </div>
-
+                                            <button className="bg-[#ffffff1a] p-2 hover:bg-[#fff3] border border-[#00000000] rounded-full fill-[#ffffff]">
+                                                <Icons.ThreeDotIco />
                                             </button>
-                                        
                                         </div>
-                                    
+
+                                        {/* play all + shuffle */}
+                                        <div className="flex gap-x-1">
+                                            <Link to={`/watch?v=${ playlistData?.videos?.length > 0 ? playlistData?.videos[0]?._id : ""}&playlistId=${playlistData?._id}`} className="bg-[#ffffff] p-[6px_25px] hover:bg-[#d9d9d9] flex gap-x-2 rounded-full">
+                                                <span>
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    width="24"
+                                                    focusable="false"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path d="m7 4 12 8-12 8V4z"></path>
+                                                </svg>
+                                                </span>
+                                                <span>Play all</span>
+                                            </Link>
+
+                                            <Link to={`/watch?v=${ playlistData?.videos?.length > 0 ? playlistData?.videos[0]?._id : ""}&playlistId=${playlistData?._id}`} className="bg-[#ffffff1a] p-[6px_25px] hover:bg-[#fff3] border border-[#00000000] text-[#ffffff] gap-x-2 flex rounded-full">
+                                                <span>
+                                                <div style={{ display: "block", fill: "currentcolor" }}>
+                                                    <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    enableBackground="new 0 0 24 24"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    width="24"
+                                                    focusable="false"
+                                                    aria-hidden="true"
+                                                    >
+                                                    <path d="M18.15 13.65 22 17.5l-3.85 3.85-.71-.71L20.09 18H19c-2.84 0-5.53-1.23-7.39-3.38l.76-.65C14.03 15.89 16.45 17 19 17h1.09l-2.65-2.65.71-.7zM19 7h1.09l-2.65 2.65.71.71L22 6.51l-3.85-3.85-.71.71L20.09 6H19c-3.58 0-6.86 1.95-8.57 5.09l-.73 1.34C8.16 15.25 5.21 17 2 17v1c3.58 0 6.86-1.95 8.57-5.09l.73-1.34C12.84 8.75 15.79 7 19 7zM8.59 9.98l.75-.66C7.49 7.21 4.81 6 2 6v1c2.52 0 4.92 1.09 6.59 2.98z"></path>
+                                                    </svg>
+                                                </div>
+                                                </span>
+                                                <span>Shuffle</span>
+                                            </Link>
+                                        </div>
+
                                     </div>
                                 </div>
-                            
-                    </section>
 
-                    <section className="w-[60%] h-[calc(100vh - 80px)] ml-[60px] mt-2 flex justify-start space-x-4 items-start  overflow-hidden">
+                            </aside>
 
-                            
-                            {/* Playlist Videos */}
-                            <section id="videosSection" className="relative">
-
-                                    <LikeVideoTypeCard video={randomVideo } count={1}/>
-                                    <LikeVideoTypeCard video={randomVideo } count={2}/>
-                                    <LikeVideoTypeCard video={randomVideo } count={3}/>
-                                    <LikeVideoTypeCard video={randomVideo } count={4}/>
-                                    <LikeVideoTypeCard video={randomVideo } count={5}/>
-                                    <LikeVideoTypeCard video={randomVideo } count={6}/>
-                                    <LikeVideoTypeCard video={randomVideo } count={7}/>
+                            {/* playlist videos */}
+                            <section className="grid w-[97%] grid-rows-[minmax(30px,50px)1fr] row-gap-[1.5rem]" style={{margin:"0px"}}>
+                                {/* top header */}
+                                <div className="sticky top-0 bg-[#ffffff] flex justify-start border-b border-gray-300 pb-2 mb-2">
+                                    <button className="active:bg-[#f2f2f2] flex p-[1] gap-2 items-start">
+                                        <span>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            enableBackground="new 0 0 24 24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            focusable="false"
+                                            aria-hidden="true"
+                                        >
+                                            <path d="M21 6H3V5h18v1zm-6 5H3v1h12v-1zm-6 6H3v1h6v-1z"></path>
+                                        </svg>
+                                        </span>
+                                        <span>Sort</span>
+                                    </button>
+                                </div>
+                                                
+                                {/* video list */}
+                                <div className="h-full w-full flex flex-col gap-y-[1rem]">
+                                    {playlistData?.videos?.length > 0 ? playlistData?.videos?.map( (video) => (
+                                        <WatchHistoryTypeCard video={video}  key={video?._id}/>
+                                    )) : (<>No videos in watch later</>)}
+                                </div>
                             </section>
 
-                        
-                    </section>
-
-                </>
-            ) : list === "WL" ? (
-
-                <section id="watchLaterSection" className="w-full flex items-start justify-start gap-10 space-x-20">
-                    {/* Sidebar */}
-                    <section
-                        style={gradientStyle}
-                        className="w-[350px] min-h-[calc(100vh-100px)] h-auto sticky top-[80px] left-[100px] overflow-hidden flex flex-col items-center justify-start rounded-2xl p-4"
-                    >
-                        {/* Playlist Thumbnail */}
-                        <div className="w-full relative group">
-                        <img
-                            className="w-full rounded-xl"
-                            ref={latestImgRef}
-                            crossOrigin="anonymous"
-                            src="https://i.ytimg.com/vi/QoiRcwKrl1M/hq720.jpg"
-                            alt="Playlist thumbnail"
-                        />
-                        <div className="absolute top-0 left-0 w-full h-full rounded-xl flex justify-center items-center bg-black/70 opacity-0 group-hover:opacity-100 transition">
-                            <p className="text-white flex items-center space-x-2 cursor-pointer font-medium">
-                            <Icons.PlayIco /> <span>Play All</span>
-                            </p>
-                        </div>
-                        </div>
-
-                        {/* Playlist Info */}
-                        <div className="flex flex-col space-y-3 mt-6 w-full">
-                        <h1 className="text-white text-[22px] font-semibold">Liked videos</h1>
-                        <h2 className="text-white text-[15px]">Same Turmux</h2>
-
-                        <div className="text-white/70 text-[13px] flex space-x-2">
-                            <p>550 videos</p>
-                            <p>No views</p>
-                            <p>Updated today</p>
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="flex space-x-3 text-white/70">
-                            <button
-                            style={gradientStyle}
-                            className="p-2 rounded-full"
-                            aria-label="Download"
-                            >
-                            <Icons.DownloadIco />
-                            </button>
-                            <button
-                            style={gradientStyle}
-                            className="p-2 rounded-full"
-                            aria-label="More options"
-                            >
-                            <Icons.ThreeDotIco />
-                            </button>
-                        </div>
-
-                        <div className="flex space-x-2">
-                            <button className="flex items-center space-x-1 text-black bg-white px-4 py-2 rounded-full">
-                            <Icons.PlayIco /> <span>Play all</span>
-                            </button>
-                            <button
-                            style={gradientStyle}
-                            className="flex items-center space-x-1 text-white px-4 py-2 rounded-full"
-                            >
-                            <Icons.WavIco /> <span>Shuffle</span>
-                            </button>
-                        </div>
-                        </div>
-                    </section>
-
-                    {/* Playlist Videos */}
-                    <section className="w-[65%] h-[calc(100vh-80px)] mt-2 flex flex-col space-y-4 overflow-y-auto pr-2">
-                        {/* Filter Buttons */}
-                        <div className="flex items-center space-x-3 sticky top-0 bg-white py-2 z-10">
-                        <button className="flex items-center space-x-1.5 cursor-pointer relative after:content-[''] after:absolute after:top-2 after:right-[-5px] after:bg-gray-300 after:h-[10px] after:w-[1px]">
-                            <Icons.SortBarIco />
-                            <p>Sort</p>
-                        </button>
-                        <button className="bg-gray-200 text-black px-3 py-1 rounded-md">All</button>
-                        <button className="bg-gray-200 text-black px-3 py-1 rounded-md">Video</button>
-                        <button className="bg-gray-200 text-black px-3 py-1 rounded-md">Shorts</button>
-                        </div>
-
-                        {/* Video Cards */}
-                        <div className="flex flex-col">
-                        {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-                            <WatchHistoryTypeCard key={i} video={randomVideo} count={i} />
-                        ))}
-                        </div>
-                    </section>
                 </section>
-
-            ) : "Invalid Access" }
+            )}
         </>
     )
 
