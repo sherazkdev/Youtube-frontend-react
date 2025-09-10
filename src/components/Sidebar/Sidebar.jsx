@@ -18,7 +18,7 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
 
     // for loading
     if(sidebarDetailsLoading){
-      return (<>Please wait</>)
+      return (<></>);
     }
 
     const {isLoggedInUser} = useContext(AuthContext);
@@ -250,25 +250,24 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
                 <hr className='text-[#d9d9d9] w-[226px] m-[8px_0px]'/>
                 
                 {/* subscription for logged in user */}
-                {isLoggedInUser === false && (
+                {isLoggedInUser() === true && (
                   <section id='subscription-navigation-menu' className='w-full m-[0px_0px_0px_10px]'>
-                  <ul className='flex flex-col w-[216px] space-y-1 mt-2 mb-2 pl-0'>
-                    {/* for logged in user profile */}
-                    <li className='hover:bg-[#f2f2f2] p-[8px_12px] rounded-[13px] w-[204px]'> <Link to={yourLinks[0]?.href} className='flex items-center justify-start space-x-2'> <span className='text-[#0f0f0f] text-[16px] font-[500]'>{"Subscription"}</span> <span className='mt-1'>{yourLinks[0]?.icon()}</span> </Link></li>
-  
-                    {data?.subscriptions?.filter( (_y,index) => subscriptionIsExpended || index < 4)?.map( (subscription,index) => (
-                      <li className='hover:bg-[#f2f2f2] p-[8px_12px] rounded-[13px] w-[216px]' key={index}> <Link to={subscription?.channel?._id} className='flex items-start space-x-5'> <span className='max-w-[24px] min-w-[24px]'><img src={subscription?.channel?.avatar} alt={subscription?.channel?.fullname} className='w-[24px] h-[24px] object-cover rounded-full' /></span> <span className='text-[#0f0f0f] text-[14px] max-w-[112px] min-w-[112px]'>{subscription?.channel?.fullname.length > 13 ? subscription.channel?.fullname.slice(0,10) + "..." : subscription?.channel?.fullname}</span> {subscription?.isRecentlyVideoUploaded ? ( <span className='text-blue-800 font-extrabold animate-pulse'>.</span>) : (<span></span>)} </Link> </li>
-                    ))}
-                    
-                    {/* for show all subscription and show less subscription */}
-                    {data?.subscriptions?.length > 5 &&  (
-                      <li className='hover:bg-[#f2f2f2] p-[8px_12px] rounded-[13px] w-[216px]'> <button className='flex items-start space-x-5 cursor-pointer' onClick={ () => setSubscriptionIsExpended(!subscriptionIsExpended)}> <span className={`${!subscriptionIsExpended ? (`rotate-0`) : (`rotate-180`)}`}>{Icons.DownArrowIco()}</span> <span> {subscriptionIsExpended ? "Show less" : "Show all"} </span></button> </li>
-                    )}
-                  </ul>
+                    <ul className='flex flex-col w-[216px] space-y-1 mt-2 mb-2 pl-0'>
+                      {/* for logged in user profile */}
+                      <li className='hover:bg-[#f2f2f2] p-[8px_12px] rounded-[13px] w-[204px]'> <Link to={yourLinks[0]?.href} className='flex items-center justify-start space-x-2'> <span className='text-[#0f0f0f] text-[16px] font-[500]'>{"Subscription"}</span> <span className='mt-1'>{yourLinks[0]?.icon()}</span> </Link></li>
+    
+                      {data?.subscriptions?.filter( (_y,index) => subscriptionIsExpended || index < 4)?.map( (subscription,index) => (
+                        <li className='hover:bg-[#f2f2f2] p-[8px_12px] rounded-[13px] w-[216px]' key={index}> <Link to={subscription?.channel?._id} className='flex items-start space-x-5'> <span className='max-w-[24px] min-w-[24px]'><img src={subscription?.channel?.avatar} alt={subscription?.channel?.fullname} className='w-[24px] h-[24px] object-cover rounded-full' /></span> <span className='text-[#0f0f0f] text-[14px] max-w-[112px] min-w-[112px]'>{subscription?.channel?.fullname.length > 13 ? subscription.channel?.fullname.slice(0,10) + "..." : subscription?.channel?.fullname}</span> {subscription?.isRecentlyVideoUploaded ? ( <span className='text-blue-800 font-extrabold animate-pulse'>.</span>) : (<span></span>)} </Link> </li>
+                      ))}
+                      
+                      {/* for show all subscription and show less subscription */}
+                      {data?.subscriptions?.length > 5 &&  (
+                        <li className='hover:bg-[#f2f2f2] p-[8px_12px] rounded-[13px] w-[216px]'> <button className='flex items-start space-x-5 cursor-pointer' onClick={ () => setSubscriptionIsExpended(!subscriptionIsExpended)}> <span className={`${!subscriptionIsExpended ? (`rotate-0`) : (`rotate-180`)}`}>{Icons.DownArrowIco()}</span> <span> {subscriptionIsExpended ? "Show less" : "Show all"} </span></button> </li>
+                      )}
+                    </ul>
                   </section>
                 )}
-
-                
+        
                 {/* if is not logged in user */}
                 {isLoggedInUser() === false && (
                   <section id="login-popup" className="w-full m-[0px_0px_0px_20px] flex space-y-2 items-start justify-center flex-col">
@@ -283,7 +282,6 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
                 {/* bottom border line horizantle */}
                 <hr className='text-[#d9d9d9] w-[226px] m-[8px_0px]'/>
 
-  
                 {/* more links */}
                 <section className='w-full m-[0px_0px_0px_10px]'>
                   <ul className='w-[216px] flex flex-col space-y-1 mt-2 mb-2 pl-0'>
