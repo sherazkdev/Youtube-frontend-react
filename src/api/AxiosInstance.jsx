@@ -218,3 +218,10 @@ export const handleGetLikeVideosPlaylist = async () => {
     // finaly return like videos playlist
     return likeVideosPlaylist;
 }
+
+// get sidebar subscription for logged in user
+export const handleGetsidebarDetails = async () => {
+    const fetchSidebarDetails = await axios.get(`${baseURL}/api/v1/users/sidebar-notifications`,{withCredentials:true});
+    // return fetch sidebar details 
+    return fetchSidebarDetails;
+}

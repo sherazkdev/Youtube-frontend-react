@@ -10,17 +10,9 @@ export const AuthProvider = ({children}) => {
     const [loggedInUser,setLoggedInUser] = useState(null);
 
     useEffect( () => {
-    
-        // get User accessToken || refreshToken || bearer Token
-        const cookies = document.cookie;
-        const variables = cookies.split("; accessToken=");
-        const accessToken = variables.slice(";").pop().split(";").shift();
-        
-        // check is accessTokenIsExist
-        if(accessToken){ 
 
-            // verify user with api calling backend
-            const verifyUserByCookie = async () => {
+        // verify user with api calling backend
+        const verifyUserByCookie = async () => {
             try {
                 
                 // verify user by axios
@@ -33,17 +25,19 @@ export const AuthProvider = ({children}) => {
                     setLoggedInUser(null);
                     return;
                 }
-
-
             } catch (error) {
                 setError(error?.response?.data || error?.response || error)
             }
-            }
-            verifyUserByCookie();
         }
 
+        const timer = setTimeout(verifyUserByCookie,100);
+        return () => { clearTimeout(timer)}
 
     },[])
+
+    // if(error){
+    //     return (<>Some thing wrong</>)
+    // }
 
     // Checking user is logged in 
     const isLoggedInUser = () => {

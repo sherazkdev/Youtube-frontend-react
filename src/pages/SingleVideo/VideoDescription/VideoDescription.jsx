@@ -12,7 +12,7 @@ const VideoDescription = ({video}) => {
     return (
         
             <>
-                <section className="w-[1350px] rounded-lg bg-[#f2f2f2] p-2 ">
+                <section className="w-full rounded-lg bg-[#f2f2f2] p-2 ">
                             
                     <div id="topHeader" className="flex space-x-2 font-medium">
                                 

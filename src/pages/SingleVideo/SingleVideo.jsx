@@ -163,15 +163,15 @@ const SingleVideo = () => {
     return (
         <>
             {/* Video,Description,Operations,comments,relatedVideos Sections */}
-            <section className="max-w-[2850px] flex-1 flex justify-start items-start">
+            <section className="max-w-[2850px] md-2040:justify-start xl-2550:justify-start xxl-2720:justify-center flex-1 flex items-start">
                 {/* Video,comments,description,operations,sections */}
-                <section id="videoSections" className="flex flex-col mt-[20px] ml-[50px] max-w-[1350px]">
+                <section id="videoSections" className="flex flex-col mt-[20px] ml-[50px] max-w-[70%] w-[70%]">
 
                     {/* Video Player and operations sections */}
                     <section className="flex flex-col">
 
                         {/* Video Player */}
-                        <div className="w-[1350px] bg-slate-950 rounded-xl">
+                        <div className="w-full bg-slate-950 rounded-xl">
                             <VideoPlayer poster={currentVideo?.thumbnail}  url={currentVideo} onEnded={handleVideoEnd} />
                         </div>
 
@@ -212,7 +212,7 @@ const SingleVideo = () => {
                     <VideoDescription video={data?.video} />
 
                     {/* Comments container */}
-                    <section id="commnetsContainer" className="flex flex-col space-y-3">
+                    <section id="commnetsContainer" className="flex w-full flex-col space-y-3">
 
                         {/* Comment Form */}
                         <CommentForm

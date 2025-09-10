@@ -1,40 +1,45 @@
 import {useLocation,Outlet} from "react-router-dom";
-import React from 'react';
+import React,{useState} from 'react';
 import Header from "../../Headers/Header";
 import Sidebar from "../../Sidebar/Sidebar";
 
 const MainLayout = () => {
 
+    const [isExpanded,setIsExpanded] = useState(true);
+    
     // Get location
     const currentLocation = useLocation();
-    // get Params from url
-    const params = new URLSearchParams(currentLocation.pathname);
+
+    // handle click bar icon for sidebar 
+    const handleClickSidebarBar = () => {
+        if(currentLocation.pathname.startsWith("/watch")){
+            setIsExpanded(!isExpanded);
+        }else {
+            setIsExpanded(!isExpanded);
+        }
+    }
+
+
     
 
     return (
         <>
             {/* Top Header */}
-            <Header />
+            <Header handleClickSidebarBar={handleClickSidebarBar} />
 
             {/* Main Section */}
-            <main id="main" className="flex h-[calc(100vh - 70px)] w-full">
-                
-                <section className="max-w-[240px]">
+            <main id="main" className="flex h-[calc(100vh - 10px)] w-full space-x-5">
 
                     {currentLocation.pathname.startsWith("/watch") === true ? (
-                        // For Watch Page
-                        <Sidebar variant="mobile" />
-                    ) : currentLocation.pathname.startsWith("/playlist") === true ? (
-                        <>
-                            <Sidebar variant="expanded" />
-                        </>
+                        <section className={`max-w-[240px]`}>
+                            {/* For Watch Page */}
+                            <Sidebar variant="drawer" isExpanded={isExpanded} handleClickSidebarBar={handleClickSidebarBar} />
+                        </section>
                     ) : (
-                        // Normal Pages for example channel home etc.
-                        <Sidebar variant="expanded" />
+                        <section className={`${isExpanded ? "min-w-[240px]" : "w-[85px]"} max-w-[240px]`}>
+                            <Sidebar variant="expanded" isExpanded={isExpanded} handleClickSidebarBar={handleClickSidebarBar} />
+                        </section>
                     )}
-                
-                </section>
-                
                 <section className="overflow-y-scroll w-full max-w-[2896px]">
                     <Outlet />
                 </section>

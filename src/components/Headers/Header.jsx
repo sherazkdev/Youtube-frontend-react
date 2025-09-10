@@ -1,62 +1,30 @@
 import React,{useContext,  useState} from "react";
-import { Link,useLocation, } from "react-router-dom";
+import { Link, } from "react-router-dom";
 import Icons from "../../assets/Icons"
 import {AuthContext} from "../../context/AuthContext";
 import SearchBar from "./SearchBar/SearchBar";
 
-const Header = () => {
+const Header = ({handleClickSidebarBar,isExpanded}) => {
     // Hooks And States
-    
-    const location = useLocation();
     const [uploadOverlay,setUploadOverlay] = useState(false);
     const [notification,setNotification] = useState(false);
     const [profile,setProfile] = useState(false);
 
     // Authentication Checking
     const {loggedInUser,isLoggedInUser} = useContext(AuthContext);
-
-    // Functions    
-    const hanldeBarToggle = () => {
-        
-        if(location.pathname == "/watch"){
-            const detailedSidebar = document.querySelector("#sidebarOverlay");
-            
-            if(detailedSidebar.className.includes("hidden")){
-
-                detailedSidebar.classList.remove("hidden")
-                detailedSidebar.classList.add("flex")
-            
-            }else if(detailedSidebar.className.includes("flex")){
-                detailedSidebar.classList.remove("flex")
-                detailedSidebar.classList.add("hidden")
-            }
-        
-        }else {
-            const shortSidebar = document.getElementById("shortSlider");
-            const detailedSidebar = document.getElementById("detailedSidebar");
-            
-            if(detailedSidebar.className.includes("hidden")){
-                shortSidebar.classList.replace("block","hidden");
-                detailedSidebar.classList.replace("hidden","block") 
-            }else {
-                detailedSidebar.classList.replace("block","hidden");
-                shortSidebar.classList.replace("hidden","block");
-            }
-        }
-    }
     
-
     return(
         <>
             {/* Header Section */}
             <header className="flex z-10 justify-between sticky top-0 shadow-[0px_0px_1px_#f2f2f2] bg-[#fff] items-center  h-[70px]  px-5">
                 {/* Left Section */}
-                <section id="left-section" className="flex space-x-2 items-center">
+                <section id="left-section" className={`flex space-x-7 items-center ${isExpanded ? `` :  "ml-[6px]"}`}>
                     <div>
-                        <button onClick={hanldeBarToggle}> <Icons.BarIco /> </button>
+                        <button onClick={handleClickSidebarBar}> <Icons.BarIco /> </button>
                     </div>
                     <div>
                         <Link to={"/"}> <Icons.YoutubeIco /> </Link>
+                        <strong class="mt-[-20px] text-[11px] text-[#0f0f0f] font-normal m-[0px_4px_14px_5px]" >PK</strong>
                     </div>
                 </section>
 

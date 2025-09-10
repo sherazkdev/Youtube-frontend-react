@@ -15,7 +15,6 @@ const UseWatchLater = (playlistType) => {
                 setLoading(true);
                 if(playlistType == "LL") {
                     const response = await handleGetLikeVideosPlaylist();
-                    console.log(response)
                     if(response.data?.success === true || response.data?.statusCode === 200) {
                         setLoading(false);
                         return setData(response.data?.data[0]);

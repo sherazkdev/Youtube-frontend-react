@@ -14,14 +14,14 @@ const Home = () => {
         <>
             {loading ? (
                 <>
-                    {Array(10).fill(null).map( (_y,index) => (
+                    {Array(20).fill(null).map( (_y,index) => (
                         <VideoSceleton key={index} />
                     ))}
                 </>
             ) : (
                 <>
                     {latestVideos.map( (video) => (
-                        <ColumnTypeCard video={video}  />
+                        <ColumnTypeCard video={video} key={video?._id} />
                     ) )}
                 </>
             )}

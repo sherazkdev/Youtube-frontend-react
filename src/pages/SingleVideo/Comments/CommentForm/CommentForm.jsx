@@ -124,7 +124,7 @@ const CommentForm = ({
 
   // ---------- Main Comment Input ----------
   return (
-    <div className="flex flex-col w-full max-w-[1330px]">
+    <div className="flex flex-col w-full max-w-full">
       <div className="flex items-center justify-between mt-4 mb-2">
         <h3 className="text-[16px] font-medium text-[#0f0f0f]">
           <span id="totalComments">210</span> Comments
