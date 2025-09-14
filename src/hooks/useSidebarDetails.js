@@ -20,6 +20,9 @@ const UseSidebarDetails = () => {
                     setData(fetchDetailsAndSubscriptions?.data?.data)
                 }
             } catch (error) {
+                if(error?.response?.data?.message === "Unauthorized Request" && error?.response?.data?.statusCode === 401){
+                    return setError(null)
+                }
                 setError(error?.response?.data || error?.response || error)
             } finally {
                 setLoading(false)

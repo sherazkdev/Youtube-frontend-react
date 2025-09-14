@@ -2,6 +2,7 @@ import React from 'react';
 import ColumnTypeCard from "../../components/Cards/HomePage/ColumnTypeCard";
 import useVideos from "../../hooks/useVideos";
 import VideoSceleton from "../../components/Skeletons/VideoSkeleton/VideoSkeleton"
+import {Helmet} from "react-helmet"
 
 const Home = () => {
 
@@ -12,6 +13,11 @@ const Home = () => {
 
     return (
         <>
+            {/* <Helmet>
+                <title>Youtube Streaming Project</title>
+                <meta name="description" content="Watch the latest videos on VideoHub. Explore a wide range of content including tutorials, entertainment, and more." />
+                <meta name="keywords" content="videos, tutorials, entertainment, VideoHub, latest videos, online videos" />
+            </Helmet> */}
             {loading ? (
                 <>
                     {Array(20).fill(null).map( (_y,index) => (

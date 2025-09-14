@@ -113,7 +113,7 @@ const SearchBar = () => {
                     onKeyDown={handleKey}
                     onFocus={() => setShowSuggestions(true)}
                     onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                    className="w-[600px] px-4 py-2 border rounded-full"
+                    className="w-[600px] px-4 py-2 border rounded-full outline-none shadow-[0px_0px_2px_#d9d9d9]"
                     placeholder="Search"
                 />
                 <button type="submit" className="absolute p-2 top-0 rounded-l-none rounded-r-full border border-[#ccc] hover:bg-[#f1eeee]  right-0 bg-[#f6f6f6]">

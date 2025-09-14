@@ -7,6 +7,14 @@ import axios from "axios";
 const baseURL = import.meta.env.VITE_API_URL;
 
 
+// get user channel details by username
+export const handleGetUserChannelByUsername = async (username) => {
+    // fetch user channel by username
+    const fetchUserChannel = await axios.get(`${baseURL}/api/v1/users/channel/${username}`,{withCredentials:true});
+    // return fetch user channel
+    return fetchUserChannel;
+}
+
 // watch later playlist get all videos 
 export const handleGetWatchLaterPlatlist = async () => {
     // get all playlist videos and details
@@ -77,6 +85,14 @@ export const handelGetPlaylistById = async (playlistId) => {
     // return finaly fetched playlist
     return playlist;
 }
+
+export const handleGetChannelVideos = async (username) => {
+    // fetching channel videos by channel id
+    const channelVideos = await axios.get(`${baseURL}/api/v1/users/channel-videos/${username}`,{withCredentials:true});
+    // finaly return channel videos
+    return channelVideos;
+}
+
 
 // check user by email is exist
 export const handleGetUserByEmailIsExist = async (email) => {
@@ -224,4 +240,12 @@ export const handleGetsidebarDetails = async () => {
     const fetchSidebarDetails = await axios.get(`${baseURL}/api/v1/users/sidebar-notifications`,{withCredentials:true});
     // return fetch sidebar details 
     return fetchSidebarDetails;
+}
+
+export const handleGetChannelPlaylistByUsername = async (username) => {
+    // fetching all playlist with videos id
+    const playlists = await axios.get(`${baseURL}/api/v1/playlists/channel-playlists/${username}`,{withCredentials:true});
+
+    // return playlists response
+    return playlists;
 }

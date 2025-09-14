@@ -8,6 +8,9 @@ const MyVideoPlayer = ({ url, poster,onEnded }) => {
         controls
         onEnded={onEnded}
         lang='eng'
+        onWaiting={() => console.log('Buffering...')}
+        onError={(e) => console.log('Error playing video:', e)}
+        autoPlay={true}
         width="100%"
         height="100%"
         light={poster}  // poster image

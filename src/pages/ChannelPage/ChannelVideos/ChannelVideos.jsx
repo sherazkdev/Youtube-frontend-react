@@ -1,30 +1,54 @@
-import React from "react";
-import ColumnTypeCardMedium from "../components/Cards/ChannelPage/ColumnTypeCardMedium";
-import ChannelTabs from "../components/ChannelTabs";
-import ChannelHeaderSection from "../components/ChannelHeaderSection";
+import React, { useState,useEffect } from "react";
+import ColumnTypeCardMedium from "../../../components/Cards/ChannelPage/ColumnTypeCardMedium";
+import ChannelTabs from "../ChannelTabs/ChannelTabs";
+import ChannelHeaderSection from "../ChannelHeader/ChannelHeader";
+import { useNavigate,useLocation } from "react-router-dom";
+import useChannelVideos from "../../../hooks/useChannelVideos";
 
 const ChannelVideos = () => {
 
-    const randomVideo = {
-        _id: "123abc",
-        title: "Exploring the Mountains in 4K",
-        thumbnail: "https://i.ytimg.com/vi/abc123/default.jpg",
-        views: 12500,
-        createdAt: "2025-07-14T10:00:00Z",
-        owner: {
-          _id: "channel123",
-          avatar: "https://i.pravatar.cc/36",
-          channelName: "Nature Explorer",
-        },
-    };
-        
+    // Redirection
+    const Redirect = useNavigate();
+
+    // get location and get url paramter or queries
+    const currentLocation = useLocation();
+
+    // search url username or variables get from url by using urlSearchParam
+    const variables = new URLSearchParams(currentLocation.search);
+
+    const [username,setUsername] = useState(variables?.get("username") || null);
+
+    // hook for get all this channel Videos by username
+    const [channelVideosError,channelVideosLoading,channelVideosData] = useChannelVideos(username);
+
+    // this useEffect using for username for update to unMount component
+    useEffect( () => {
+
+        if(variables?.get("username") === undefined){
+            Redirect("/404",{replace:false});
+        }
+        setUsername(variables?.get("username"));
+
+        // eslint-disable-next-line
+    },[currentLocation.search,currentLocation.pathname])
+
+        // this useEffect for error handling
+    useEffect( () => {
+        if(channelVideosError) {
+            console.log(channelVideosError)
+            Redirect("/404",{replace:true} );
+        }
+        // eslint-disable-next-line
+    },[channelVideosError])
     return (
         <>
 
-            <section className="w-[90%] flex justify-start space-y-3 items-start ml-[200px] flex-col overflow-y-auto">
+            <section className="flex justify-center space-y-3 items-start flex-col">
                     {/* Thumbnail,Channel,ChannelName,Operations,Subscribers,Videos Length */}
                     <section id="headerSection">
-                        <ChannelHeaderSection />
+                        {channelVideosLoading === false && channelVideosData !== null && (
+                            <ChannelHeaderSection data={channelVideosData}/>
+                        )}
                     </section>
                     
                     {/* Tabs for example Home,Videos,Shorts,Playlists,Posts,SearchIcon */}
@@ -41,14 +65,10 @@ const ChannelVideos = () => {
                                 <button type="button" className="bg-[#f2f2f2] p-[7px] rounded-lg text-[#0f0f0f] font-medium">Latest</button>
                                 <button type="button" className="bg-[#f2f2f2] p-[7px] rounded-lg text-[#0f0f0f] font-medium">Oldest</button>
                             </section>
-
-                            <ColumnTypeCardMedium video={randomVideo }/>
-                            <ColumnTypeCardMedium video={randomVideo }/>
-                            <ColumnTypeCardMedium video={randomVideo }/>
-                            <ColumnTypeCardMedium video={randomVideo }/>
-                            <ColumnTypeCardMedium video={randomVideo }/>
-                            <ColumnTypeCardMedium video={randomVideo }/>
-                            <ColumnTypeCardMedium video={randomVideo }/>
+                            {channelVideosData?.videos?.map( (video) => (
+                                <ColumnTypeCardMedium video={video} key={video?._id}/>
+                            ))}        
+                                
                         </section>
                     </section>
                 

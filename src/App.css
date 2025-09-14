@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 /* index.css */
 *,html,body,#root {
   margin: 0;
@@ -9,8 +11,12 @@
   
   width: 100%;
   height: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
+h1, h2, h3, .yt-heading {
+  font-family: "Poppins", sans-serif;
+}
+
 .clip-circle {
   border-radius: 50% !important;
   width: 40px;
@@ -30,6 +36,9 @@
   align-items: center;
   max-height: 160px;
 }
+.activeLink {
+  position: relative;
+}
 @layer components {
   .activeLink:after {
     content: '';
@@ -45,4 +54,14 @@
 
 .musicPlayer {
   background: linear-gradient(to bottom, rgba(102, 52, 114, 0.800) 0%, rgba(102, 52, 114, 0.298) 33.000001%, rgba(102, 52, 114, 0.800) 100%)
+}
+.activeLink:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -13px;
+  background-color: #0f0f0f;
+  width: 100%;
+  height:2px;
+  border-radius: 100%;
 }

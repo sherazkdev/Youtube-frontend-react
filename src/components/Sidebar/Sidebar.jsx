@@ -5,26 +5,28 @@ import useSidebarDetails from "../../hooks/useSidebarDetails"
 import {AuthContext} from "../../context/AuthContext"
 
 const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
-    const [subscriptionIsExpended, setSubscriptionIsExpended] = useState(false);
-    const sidebarRef = useRef(null);
+    
+  const [errors,setErrors] = useState({});
+  const [subscriptionIsExpended, setSubscriptionIsExpended] = useState(false);
+  const sidebarRef = useRef(null);
 
-    // this hook using for sidebar details
-    const [sidebarDetailsError,sidebarDetailsLoading,data] = useSidebarDetails();
+  // this hook using for sidebar details
+  const [sidebarDetailsError,sidebarDetailsLoading,data] = useSidebarDetails();
+  const {isLoggedInUser} = useContext(AuthContext);
 
-    // for error handling
-    useEffect( () => {
-      if(sidebarDetailsError) return (<> Some thing wrong</>)
-    },[sidebarDetailsError])
+  // for error handling
+  useEffect( () => {
+    if(sidebarDetailsError) setErrors({sidebarError : sidebarDetailsError});
+  },[sidebarDetailsError])
 
-    // for loading
-    if(sidebarDetailsLoading){
-      return (<></>);
-    }
+  // for loading
+  if(sidebarDetailsLoading){
+    return (<></>);
+  }
 
-    const {isLoggedInUser} = useContext(AuthContext);
   
-    // subscription
-    const subscriptions = [
+  // subscription
+  const subscriptions = [
       {
         avatar:"https://yt3.ggpht.com/t0Mglt5gjtPzlc0vd5H5Q6HB2BLlVYj3F8KrWV5RKPAdR0AvpYQJrYji0AKU58GQBo6WNrMU5As=s88-c-k-c0x00ffffff-no-rj",
         fullname:"Kuruluş Osman",
@@ -60,12 +62,12 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
         fullname:"CreView",
         isRecentlyUploaded:true
       }
-    ];
+  ];
   
-    // topNavLinks links  
-    
-    const Subscriptions = data?.subscriptions;
-    const topNavLinks = [
+  // topNavLinks links    
+  const Subscriptions = data?.subscriptions;
+  
+  const topNavLinks = [
       {
         icon:Icons.HomeIco,
         title:"Home",
@@ -84,10 +86,10 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
         href:"/subscriptions",
         isUploadedNewVideo:true,
       }
-    ];
+  ];
   
-    // your links
-    const yourLinks = [
+  // your links
+  const yourLinks = [
       {
         icon:Icons.LeftArrowIco,
         title:"You",
@@ -123,10 +125,10 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
         title:"Downloads",
         href:"/downloads",
       }
-    ];
+  ];
   
     // more links
-    const moreLinks = [
+  const moreLinks = [
       {
         icon:Icons.SettingIco,
         title:"Settings",
@@ -147,10 +149,10 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
         title:"Send feedback",
         href:"/feedback",
       }
-    ];
+  ];
   
     // footer links
-    const footerLinks = [
+  const footerLinks = [
       {
         title:"About",
         href:"/about",
@@ -195,19 +197,24 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
         title:"Test new features",
         href:"/test-new-features",
       },
-    ];
+  ];
+
+  if(errors.length > 0){
+    console.log(errors)
+    return (<></>);
+  }
 
     
   return (
       <>
         {variant === "expanded" && (
           <aside id='navigation-sidebar' ref={sidebarRef} className={`${isExpanded ? "w-[240px] ml-[4px]" : "w-[85px] ml-[-2px]"} fixed top-[50px] h-[100%] overflow-hidden max-w-[240px] p-[16px_0px_0px_0px] bg-[#fff] z-11`}     onMouseEnter={() => { sidebarRef.current.classList.remove("overflow-y-hidden");
-            sidebarRef.current.classList.add("overflow-y-scroll");
-          }}
-          onMouseLeave={() => {
-            sidebarRef.current.classList.remove("overflow-y-scroll");
-            sidebarRef.current.classList.add("overflow-y-hidden");
-          }}
+              sidebarRef.current.classList.add("overflow-y-scroll");
+            }}
+            onMouseLeave={() => {
+              sidebarRef.current.classList.remove("overflow-y-scroll");
+              sidebarRef.current.classList.add("overflow-y-hidden");
+            }}
           >
             {/* is expended sidebar */}
             {isExpanded && (
@@ -272,7 +279,7 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
                 {isLoggedInUser() === false && (
                   <section id="login-popup" className="w-full m-[0px_0px_0px_20px] flex space-y-2 items-start justify-center flex-col">
                     <p className="text-[14px] font-normal text-[#0f0f0f] w-[180px]">Sign in to like videos, comment, and subscribe.</p>
-                    <Link class="flex space-x-2 items-center border border-[#d9d9d9] text-[#065fd4] px-3 py-1 w-[120px] rounded-full hover:bg-[#def1ff] hover:border-transparent transition" to="/login" data-discover="true">
+                    <Link className="flex space-x-2 items-center border border-[#d9d9d9] text-[#065fd4] px-3 py-1 w-[120px] rounded-full hover:bg-[#def1ff] hover:border-transparent transition" to="/login" data-discover="true">
                       <Icons.UserIco />
                       <span>Sign In</span>
                     </Link>
@@ -325,7 +332,7 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
   
         {/* for mobile and other pages */}
         {variant === "drawer" && (
-          <div id="sidebarOverlay" ref={sidebarRef} className={`${isExpanded ? "hidden" : "flex"} justify-start overflow-hidden z-[200] inset-0  items-start w-[100%] h-full fixed top-0 bg-[#00000080]`}>
+          <div id="sidebarOverlay" ref={sidebarRef} className={`${isExpanded !== undefined ? "hidden" : "flex"} justify-start overflow-hidden z-[200] inset-0  items-start w-[100%] h-full fixed top-0 bg-[#00000080]`}>
             <aside className="w-[240px] max-w-[240px] h-full p-[16px_0px_0px_0px] bg-[#fff] z-[4] space-y-1 mb-2 pl-0 overflow-x-hidden" onMouseOver={ () => document.querySelector("aside").style.overflowY = `scroll`} onMouseLeave={ () => document.querySelector("aside").style.overflowY = `hidden`} >
               <>
                   {/* top nav link || top header */}

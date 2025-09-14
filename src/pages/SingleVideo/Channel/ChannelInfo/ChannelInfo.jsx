@@ -1,21 +1,21 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
 import SubscribeButton from "../../../../components/Buttons/SubscribeButton/SubscribeButton";
 import useSubscriptionToggle from "../../../../hooks/useSubscriptionToggle.js";
+import { AuthContext } from "../../../../context/AuthContext.jsx";
 const ChannelInfo = ({ video }) => {
 
   // states 
   const [isSubscribed,setIsSubscribed] = useState(video?.isSubscribed);
   
   useEffect( () => {
-  
-      if(video?.isSubscribed !== undefined){
-        setIsSubscribed(video?.isSubscribed)
-      }
-  
+    if(video?.isSubscribed !== undefined){
+      setIsSubscribed(video?.isSubscribed)
+    }
   },[video])
   
   // hook
   const [subscriprtionToggleError,subscriprtionToggleLoading,handleSubscriptionToggle] = useSubscriptionToggle();
+  const {loggedInUser} = useContext(AuthContext);
 
   // handle isSubscribed and unsubscribed toggle 
   const handleSubscribeAndUnsubscribeToggle = async () => {
@@ -30,7 +30,7 @@ const ChannelInfo = ({ video }) => {
   if(subscriprtionToggleError){
     return console.log(subscriprtionToggleError)
   }
-  
+
   return (
     <div
       id="channel"
@@ -61,7 +61,14 @@ const ChannelInfo = ({ video }) => {
       </div>
 
       {/* Subscribe Button */}
-      <SubscribeButton isSubscribedChannel={isSubscribed} handleSubscribeChannel={handleSubscribeAndUnsubscribeToggle}/>
+      {video?.owner?._id === loggedInUser?._id ? (
+        <div id="buttons" className="flex space-x-3">
+          <button className="bg-[#3262d2] text-[#ffffff] font-medium p-[10px_15px] rounded-[200px] hover:bg-[#0556bf]">Analytics</button>
+          <button className="bg-[#3262d2] text-[#ffffff] font-medium p-[10px_15px] rounded-[200px] hover:bg-[#0556bf]">Edit Video</button>
+        </div>
+      ) : (
+        <SubscribeButton isSubscribedChannel={isSubscribed} handleSubscribeChannel={handleSubscribeAndUnsubscribeToggle}/>
+      )}
     </div>
   );
 };

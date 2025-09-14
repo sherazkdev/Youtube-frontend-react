@@ -1,5 +1,6 @@
 import React from "react";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import ViewsCalculate from "../../../utils/ViewsCalculate";
 const ColumnTypeCard = ({video,limit=86}) => {
 
     
@@ -13,7 +14,7 @@ const ColumnTypeCard = ({video,limit=86}) => {
 
 
     return (
-        <div id="video" className="w-[442px] md-2040:w-[430px] lg-2267:w-[566px] xl-2550:w-[548px] align-top m-2 inline-block relative">
+        <div id="video" className="md-2040:w-[460px] lg-2267:w-[524px] xl-2550:w-[548px] align-top m-2 inline-block relative">
                             
             <div id="thumbnail" className="relative">
 
@@ -44,20 +45,20 @@ const ColumnTypeCard = ({video,limit=86}) => {
                         </Link>
                     </div>
                     <div id="right-video-title" className="ml-3">
-                        <div className="w-[350px]">
+                        <div className="w-full">
                             <Link to={`video?id=${video._id}`}>
                                 <p className="font-medium text-[16px] text-[#0F0F0F]">{displayTitle}</p>
                             </Link>
                         </div>
                         
                         <div>
-                            <Link to={`/channel/${video?.owner?._id}`}>
+                            <Link to={`/channel?username=${video?.owner?.username}`}>
                                 <p className="text-[#606060] font-semibold text-[14px]">{video?.owner?.fullname}</p>
                             </Link>
                         </div>
 
-                        <div className="text-[#606060] font-semibold flex space-x-2 text-[12px] relative">
-                            <span id="views">12k views </span>
+                        <div className="text-[#606060] whitespace-nowrap font-[500] flex space-x-1 text-[12px] relative">
+                            <span id="views"><ViewsCalculate views={video?.views} /></span>
                             <span className="font-extrabold m-[-3px]">.</span>
                             <span id="uploaded-date">140 Hours Ago</span>
                         </div>

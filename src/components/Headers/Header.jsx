@@ -24,7 +24,7 @@ const Header = ({handleClickSidebarBar,isExpanded}) => {
                     </div>
                     <div>
                         <Link to={"/"}> <Icons.YoutubeIco /> </Link>
-                        <strong class="mt-[-20px] text-[11px] text-[#0f0f0f] font-normal m-[0px_4px_14px_5px]" >PK</strong>
+                        <strong className="mt-[-20px] text-[11px] text-[#0f0f0f] font-normal m-[0px_4px_14px_5px]" >PK</strong>
                     </div>
                 </section>
 

@@ -1,20 +1,21 @@
 import React from "react";
 import Icons from "../../../assets/Icons";
 import {Link} from "react-router-dom";
+import ViewsCalculate from "../../../utils/ViewsCalculate";
 const ColumnTypeCard = ({video,limit = 90}) => {
 
-    const isLong = video.title.length < limit;
-    const displayText = ( isLong ? video.title : video.title.slice(0,limit) + "...");
+    const isLong = video?.title?.length < limit;
+    const displayText = ( isLong ? video?.title : video?.title?.slice(0,limit) + "...");
 
     return (
         // Column Type Card
-        <div id="video" className="w-[305px] m-[5px_10px_10px_0px]  inline-block relative">
+        <div id="video" className="w-[305px] m-[5px_10px_10px_0px]  align-top inline-block relative">
             
             {/* Thumbnail */}
-            <img src={"https://i.ytimg.com/vi/_ON1tS4UHzY/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLCP8JG4tI5kM-jP60Fn8zbauFLGNQ"} className="rounded-lg max-h-96 max-w-[305px]" alt="" />
+            <img src={video?.thumbnail} className="rounded-lg max-h-96 max-w-[305px]" alt="" />
             
             <div id="durationOverlay" className="absolute bg-[#00000099] rounded-sm bottom-[50px] right-1 text-[#fff] px-1 py-0">
-                <p className="text-[13px] font-medium"> {video.duration || "33:10"} </p>
+                <p className="text-[13px] font-medium"> {video.durationa || "33:10"} </p>
             </div>
 
             {/* Channel Section */}
@@ -30,7 +31,7 @@ const ColumnTypeCard = ({video,limit = 90}) => {
                     
 
                     <div className="text-[#606060] font-semibold flex space-x-2.5 text-[12px] relative">
-                        <span id="views">12k views </span>
+                        <span id="views"><ViewsCalculate views={video?.views} /></span>
                         <span id="uploaded-date">140 Hours Ago</span>
                     </div>
                 </div>

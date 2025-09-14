@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Icons from "../../../assets/Icons";
 import ColorThief from "colorthief";
 import {Link} from "react-router-dom"
-const PlaylistTypeCard = ({video}) => {
+const PlaylistTypeCard = ({playlist}) => {
 
     // Get rgb color from image
     const thumbnailRef = useRef(null);
@@ -36,9 +36,8 @@ const PlaylistTypeCard = ({video}) => {
 
 
     },[] )
-
     return (
-        <Link to={`/watch?v=${video._id || "123"}&playlistId=${video?.playlist?._id || "122"}`}  >
+        <Link to={`/watch?v=${playlist.videos[0]?._id}&playlistId=${playlist?._id}`}  >
             <div id="video" className="w-[250px] m-[5px_10px_10px_0px] h-[200px] inline-block">
                 
                 {/* Thumbnail Collections */}
@@ -46,12 +45,12 @@ const PlaylistTypeCard = ({video}) => {
                     {/* Collections */}
                     <div className="flex justify-center text-center  items-start flex-col">
                         <div 
-                            className={`w-[225px] h-[3px] m-auto rounded-lg`} style={{
+                            className={`w-[95%] h-[3px] m-auto rounded-lg`} style={{
                             background: `linear-gradient(to bottom, rgba(${color.join(',')},0.9), rgba(${color.join(',')},0.5))`,}}>
 
                         </div>
                         <div 
-                            className={`w-[225px] h-[3px] m-auto rounded-lg`} style={{
+                            className={`w-[95%] h-[3px] m-auto rounded-lg`} style={{
                             background: `linear-gradient(to bottom, rgba(${color.join(',')},0.9), rgba(${color.join(',')},0.5))`,}}>
 
                         </div>
@@ -59,7 +58,7 @@ const PlaylistTypeCard = ({video}) => {
                     
                     {/* Thumbnail */}
                     <div>
-                        <img className="w-[250px] rounded-lg" crossOrigin="anonymous" ref={thumbnailRef} src="https://i.ytimg.com/vi/SBNth5Jrgu8/hqdefault.jpg?sqp=-oaymwEXCOADEI4CSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLD1dSQ2OPRlLpPSjR4yS7RLt3R3aQ" />
+                        <img className="w-[250px] rounded-lg" crossOrigin="anonymous" ref={thumbnailRef} src={playlist?.videos[0]?.thumbnail} />
                     </div>
 
                     {/* Video List */}
@@ -74,12 +73,12 @@ const PlaylistTypeCard = ({video}) => {
 
                             {/* Video Label */}
                             <p className="text-[11px]"> 
-                                { video?.totalLenght > 1 ? "Videos" : "Video"}
+                                { playlist?.videos?.length > 1 ? "Videos" : "Video"}
                             </p>
 
                             {/* Video List */}
                             <p className="text-[11px]">
-                                { video?.totalLenght > 1 ? video?.totalLenght : "1" }
+                                { playlist?.videos?.length}
                             </p>
 
                         </div>
@@ -94,12 +93,12 @@ const PlaylistTypeCard = ({video}) => {
 
                         {/* Playlist Label */}
                         <div>
-                            <h2>Movies</h2>
+                            <h2>{playlist?.name}</h2>
                         </div>
                         
                         {/* Playlist Visibility */}
                         <div>
-                            <p className="text-[#606060] hover:text-[#0f0f0f] text-[13px] cursor-pointer">Private</p>
+                            <p className="text-[#606060] hover:text-[#0f0f0f] text-[13px] cursor-pointer">{playlist?.visibility }</p>
                         </div>
                         
                         {/* view full playlist label */}

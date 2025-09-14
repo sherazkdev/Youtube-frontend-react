@@ -8,7 +8,7 @@ export default  {
     extend: {
       screens:{
         'md-2040': '2040px',
-        'lg-2267': '22675px',
+        'lg-2267': '2267px',
         'xl-2550': '2550px',
         "xxl-2720":"2720px"
       }

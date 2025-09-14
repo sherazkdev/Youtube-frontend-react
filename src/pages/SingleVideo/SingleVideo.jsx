@@ -241,7 +241,7 @@ const SingleVideo = () => {
                 <section id="relatedVideos" className="flex flex-col space-y-2 ">
 
                     {data?.playlist ? (
-                        <VideosPlaylist playlist={data?.playlist} loop={loop} setLoop={setLoop} currentIndex={currentIndex} shuffle={shuffle} setShuffle={setShuffle} />
+                        <VideosPlaylist playlist={data?.playlist} loop={loop} key={1} setLoop={setLoop} currentIndex={currentIndex} shuffle={shuffle} setShuffle={setShuffle} />
                     ) : null}
 
                     {/* Suggested Videos */}

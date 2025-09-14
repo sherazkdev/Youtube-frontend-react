@@ -19,9 +19,6 @@ const MainLayout = () => {
         }
     }
 
-
-    
-
     return (
         <>
             {/* Top Header */}
@@ -30,17 +27,17 @@ const MainLayout = () => {
             {/* Main Section */}
             <main id="main" className="flex h-[calc(100vh - 10px)] w-full space-x-5">
 
-                    {currentLocation.pathname.startsWith("/watch") === true ? (
+                {currentLocation.pathname.startsWith("/watch") === true ? (
                         <section className={`max-w-[240px]`}>
                             {/* For Watch Page */}
                             <Sidebar variant="drawer" isExpanded={isExpanded} handleClickSidebarBar={handleClickSidebarBar} />
                         </section>
-                    ) : (
+                ) : (
                         <section className={`${isExpanded ? "min-w-[240px]" : "w-[85px]"} max-w-[240px]`}>
                             <Sidebar variant="expanded" isExpanded={isExpanded} handleClickSidebarBar={handleClickSidebarBar} />
                         </section>
-                    )}
-                <section className="overflow-y-scroll w-full max-w-[2896px]">
+                )}
+                <section className={`w-full ${currentLocation.pathname.startsWith("/channel") ? "flex justify-center items-start" : "" } `}>
                     <Outlet />
                 </section>
 
