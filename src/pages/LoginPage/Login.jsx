@@ -128,7 +128,7 @@ function Login() {
 
   return (
     <>
-      <main className='bg-[#f1f4f9] w-[100%] min-h-[100%] flex justify-center items-center'>
+      <main className='bg-[#f1f4f9] w-full min-h-screen flex justify-center items-center'>
 
         <section id="loginOrSignUp">
 

@@ -44,19 +44,6 @@ const Channel = () => {
         }
         // eslint-disable-next-line
     },[channelError])
-
-    const randomVideo = {
-        _id: "123abc",
-        title: "Exploring the Mountains in 4K",
-        thumbnail: "https://i.ytimg.com/vi/abc123/default.jpg",
-        views: 12500,
-        createdAt: "2025-07-14T10:00:00Z",
-        owner: {
-          _id: "channel123",
-          avatar: "https://i.pravatar.cc/36",
-          channelName: "Nature Explorer",
-        },
-    };
     
     return (
         <> 

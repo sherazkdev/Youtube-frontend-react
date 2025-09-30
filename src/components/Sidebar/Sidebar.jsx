@@ -25,45 +25,6 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
   }
 
   
-  // subscription
-  const subscriptions = [
-      {
-        avatar:"https://yt3.ggpht.com/t0Mglt5gjtPzlc0vd5H5Q6HB2BLlVYj3F8KrWV5RKPAdR0AvpYQJrYji0AKU58GQBo6WNrMU5As=s88-c-k-c0x00ffffff-no-rj",
-        fullname:"Kuruluş Osman",
-        isRecentlyUploaded:true,
-      },
-      {
-        avatar:"https://yt3.ggpht.com/4bBup0XuY0h5Ez9sGEr3d0eRboggo6eXPfXIlYRIqZ_PBDLJgqPd8PqrA9okzQxTm1-pVjCDyw=s88-c-k-c0x00ffffff-no-rj",
-        fullname:"Pyshco Nejdet",
-        isRecentlyUploaded:false,
-      },
-      {
-        avatar:"https://yt3.ggpht.com/ytc/AIdro_nyClrIT--BirD1B4Sj0Ol92tIpJpC8dWdRu7mFf7CVJPU=s88-c-k-c0x00ffffff-no-rj",
-        fullname:"Bozdağ Film",
-        isRecentlyUploaded:true,
-      },
-      {
-        avatar:"https://yt3.ggpht.com/P7dfHnuUHplsm0NTdMXuhfp6zC5m2EsTid_MgDrmSEIWXmJKq5r4QLwcKHK5DoD03bJbHXJ3VA=s88-c-k-c0x00ffffff-no-rj",
-        fullname:"Sayf Jaxon",
-        isRecentlyUploaded:true,
-      },
-      {
-        avatar:"https://yt3.ggpht.com/h9cJrpK-KAM3i0EV7HYQU9kB_1eNwzpgfL3DF70GHnfYDUFpAkJV6djhJOBiQuBjn5xYi4UDWWk=s88-c-k-c0x00ffffff-no-rj",
-        fullname:"Animate Prefrence",
-        isRecentlyUploaded:false,
-      },
-      {
-        avatar:"https://yt3.ggpht.com/FqkhHuAOU1eNXotxexcuV6Jc7S6t2Y8VmoKhMeGR5tA3p5T-e0rLvdEjQBQUqLeqxlmN6o6Bsn4=s68-c-k-c0x00ffffff-no-rj",
-        fullname:"Bollywood Silver Screen",
-        isRecentlyUploaded:false,
-      },
-      {
-        avatar:"https://yt3.ggpht.com/RmBKsSa7hzrKsVtCVhdk0lzB6LHsGCiFkQ3PJIYfUqA2gKPONfI5UA5lKV48cPb_T4eM6I48hhU=s68-c-k-c0x00ffffff-no-rj",
-        fullname:"CreView",
-        isRecentlyUploaded:true
-      }
-  ];
-  
   // topNavLinks links    
   const Subscriptions = data?.subscriptions;
   
@@ -83,7 +44,7 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
       {
         icon:Icons.SubscriptionIco,
         title:"Subscriptions",
-        href:"/subscriptions",
+        href:"/subscription",
         isUploadedNewVideo:true,
       }
   ];
