@@ -26,7 +26,7 @@ const Sidebar = ({ variant = "expanded",isExpanded,handleClickSidebarBar }) => {
 
   
   // topNavLinks links    
-  const Subscriptions = data?.subscriptions;
+  const Subscriptions = data?.subscriptions || [];
   
   const topNavLinks = [
       {
